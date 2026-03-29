@@ -12,3 +12,5 @@ Your final commit should include just that folder and selected items from its co
 - If appropriate, any binary files you created along the way provided they are less than 2MB in size
 
 Do NOT include full copies of code that you fetched as part of your investigation. Your final commit should include only new files you created or diffs showing changes you made to existing code.
+
+After completing your research, add an entry to the root `README.md`. Append a row to the table there with a link to your directory and a summary of at most 50 words describing what you investigated and what you found.
