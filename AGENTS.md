@@ -13,4 +13,17 @@ Your final commit should include just that folder and selected items from its co
 
 Do NOT include full copies of code that you fetched as part of your investigation. Your final commit should include only new files you created or diffs showing changes you made to existing code.
 
-After completing your research, add an entry to the root `README.md`. Append a row to the table there with a link to your directory and a summary of at most 50 words describing what you investigated and what you found.
+After completing your research, add an entry to the root `README.md`. Prepend it below the introductory paragraphs (newest first) using this format:
+
+```
+### [Project Name](https://github.com/mamachanko/research/tree/main/DIRECTORY#readme) (YYYY-MM-DD HH:MM)
+
+One to three sentences describing what was investigated and what was found. Include relevant links.
+
+Key findings:
+- Finding one
+- Finding two
+- Finding three
+```
+
+Use the UTC time at which you completed the research. Keep the description concise and factual.
