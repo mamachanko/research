@@ -1,0 +1,5 @@
+# compiled binary
+mqvis
+
+# VHS raw PNG frame directories (intermediate; GIFs assembled from these are committed)
+output/*.png/
