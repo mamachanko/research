@@ -6,6 +6,16 @@ Each directory here is a separate research project carried out by an LLM tool - 
 
 Times shown are in UTC.
 
+### [Isoline 3D Visualization](https://github.com/mamachanko/research/tree/main/isoline-3d-visualization#readme) (2026-03-30 04:10)
+
+An exploration of eight distinct approaches to visualizing 3D objects using only isolines: horizontal slicing, Joy Division ridgelines, rotating parametric curves, depth-layered contours, cross-hatched multi-axis contours, radial coordinate isolines, parametric surface grids, and animated morphing contours. Each technique is demonstrated on multiple mathematical surfaces with Python/matplotlib.
+
+Key findings:
+- Occlusion (Joy Division style) creates the strongest immediate 3D perception from pure line work
+- Cross-hatching multiple contour sets from different axes mimics classical engraving and reveals curvature direction
+- Depth-modulated line weight (thicker = closer) is the simplest enhancement to add depth to any contour plot
+- Parametric iso-curves are the only viable approach for non-orientable surfaces like Klein bottles and Mobius strips
+
 ### [Visualize Queue Flow](https://github.com/mamachanko/research/tree/main/visualize-queue-flow#readme) (2026-03-29 09:20)
 
 An exploration of 22 terminal visualizations for a two-app RabbitMQ pipeline (publisher → queue → consumer), built with Bubble Tea and Lip Gloss. Eight conceptual areas (queue depth, message flow, status panels, throughput, event timeline, network topology, latency distribution, full dashboard) were each implemented at three complexity levels, from a single colored progress bar to a particle burst stream to a 2D latency heat grid, all recorded as animated GIFs with VHS.
