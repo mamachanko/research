@@ -6,15 +6,15 @@ Each directory here is a separate research project carried out by an LLM tool - 
 
 Times shown are in UTC.
 
-### [3D Pen Plotter — Continuous Stroke](https://github.com/mamachanko/research/tree/main/3d-pen-plotter-continuous#readme) (2026-03-31 05:45)
+### [3D Pen Plotter — Continuous Stroke](https://github.com/mamachanko/research/tree/main/3d-pen-plotter-continuous#readme) (2026-03-31 11:20)
 
-An exploration of drawing three-dimensional wireframe objects in a single continuous pen stroke without lifting the pen, using the Chinese Postman Problem to Eulerize wireframe graphs and Hierholzer's algorithm for Euler circuits. Eleven shapes rendered as SVGs with depth-varying line weight and opacity for 3D perception.
+An exploration of drawing three-dimensional forms with a single continuous swirling stroke — not wireframes, but flowing parametric curves that wrap around 3D surfaces. When projected with perspective, the line's natural density variation (bunching at edges, spreading in the middle) makes the brain perceive spheres, tori, vases, and knots. Twelve shapes rendered as SVGs with depth-varying line weight and opacity.
 
 Key findings:
-- Depth perception from line weight variation alone (9:1 thick-to-thin ratio plus opacity) is surprisingly effective without hidden-line removal
-- The Chinese Postman Problem (minimum-weight perfect matching on odd-degree vertices) is the right abstraction for minimizing retraced edges
-- Regular grid wireframes (torus, sphere) are naturally Eulerian — zero retracing needed — because all vertices have even degree
-- Retraced edges add visual weight at structurally important vertices, an unintentional but artistically pleasing side effect
+- A single spiral on a sphere's surface, projected with perspective, reads unmistakably as a 3D sphere from line density alone
+- Line weight variation (14:1 thick-to-thin ratio) combined with opacity is the strongest depth cue — no hidden-line removal needed
+- Three different sphere spirals (pole-to-pole, loxodrome, Fibonacci) each produce distinct artistic character while all clearly reading as "sphere"
+- The technique extends to any parametric surface: tori, cones, vases, Mobius strips, Klein bottles, and knots
 
 ### [Isoline 3D Visualization](https://github.com/mamachanko/research/tree/main/isoline-3d-visualization#readme) (2026-03-30 04:10)
 

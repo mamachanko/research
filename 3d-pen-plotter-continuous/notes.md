@@ -1,110 +1,74 @@
 # 3D Pen Plotter Continuous Stroke — Research Notes
 
 ## Goal
-Explore how to draw three-dimensional objects using a pen plotter in a single continuous stroke without lifting the pen, while maintaining the perception of depth and three dimensions.
+Explore how to draw three-dimensional forms using a pen plotter in a single continuous stroke without lifting the pen, while maintaining the perception of depth — with artistic interpretation rather than geometric precision.
 
-## Key Challenges
-1. **Single continuous path**: A wireframe has many edges meeting at vertices — most wireframes are NOT Eulerian (not all vertices have even degree), so you can't simply trace all edges without retracing some.
-2. **3D depth perception**: Without shading/fill, we rely on perspective projection, line weight variation, and hidden-line handling to convey depth.
-3. **Artistic quality**: The path must look intentional, not like a random walk.
+## Key Insight
+You don't need wireframes. A single continuous curve that wraps around a 3D surface, when projected with perspective, naturally creates density variations that the eye reads as 3D form. Lines bunch together where the surface curves away (edges of a sphere, sides of a cylinder), and spread apart where it faces you. This is the same principle that makes a ball of yarn look round.
 
-## Approach: Pipeline
+## Two Approaches Explored
 
-### Step 1: Define 3D geometry
-- Parametric shapes (cube, icosahedron, torus, sphere wireframe, etc.)
-- Represented as vertices + edges (graph)
+### Approach 1: Swirling Parametric Curves (PRIMARY — what the user wanted)
 
-### Step 2: Project to 2D
-- Perspective projection with a virtual camera
-- Retain Z-depth for each vertex for depth cues
+The core idea: define a continuous parametric path on the surface of a 3D object, project to 2D, and let perspective foreshortening do the work.
 
-### Step 3: Eulerize the graph (Chinese Postman Problem)
-- Find odd-degree vertices
-- Compute shortest paths between all pairs of odd-degree vertices
-- Find minimum-weight perfect matching on odd vertices
-- Duplicate edges along matched shortest paths
-- Now all vertices have even degree → Euler circuit exists
+**Why it works:**
+- Surface curvature creates natural line density variation
+- Perspective projection amplifies this: near surfaces spread, far surfaces compress
+- Adding depth-modulated line weight (thick=near, thin=far) and opacity reinforces the effect
+- The result is unmistakably 3D even though it's technically "just a swirly line"
 
-### Step 4: Find Euler circuit
-- Hierholzer's algorithm — O(|E|) time
+**Implemented shapes:**
+1. Sphere (3 variants: pole-to-pole spiral, loxodrome, Fibonacci)
+2. Torus — spiral winding around the tube
+3. Cylinder — helix
+4. Cone — shrinking helix
+5. Egg — spiral on asymmetric ellipsoid
+6. Vase — spiral on surface of revolution
+7. Möbius strip — oscillating path across the width
+8. Trefoil knot — already a single continuous 3D curve
+9. Spring coil — spiral around a helical tube
+10. Klein bottle — spiral on figure-8 immersion
 
-### Step 5: Render with depth cues
-- Line weight varies with Z-depth (closer = thicker)
-- Optional: opacity variation
-- Output as SVG for pen plotter compatibility
+**Depth cues used:**
+- Line weight: 0.2px (far) to 2.8px (near) — 14:1 ratio
+- Opacity: 0.15 (far) to 0.95 (near)
+- Perspective foreshortening (free from projection)
 
-## Mathematical Foundations
+### Approach 2: Wireframe Eulerization (secondary, included for completeness)
 
-### Perspective Projection
-For a point (x, y, z) with camera at origin looking down -z:
-```
-x_screen = f * (x / z) + cx
-y_screen = f * (y / z) + cy
-```
+Treats the wireframe as a graph problem: make all vertex degrees even (Chinese Postman Problem), then find Euler circuit (Hierholzer's algorithm). Mathematically elegant but produces rigid, mechanical-looking results — not the organic "swirl" quality the user described.
 
-### Euler Circuit Conditions
-- Undirected connected graph has Euler circuit ⟺ every vertex has even degree
-- Euler path ⟺ exactly 0 or 2 vertices have odd degree
+**Key algorithms:**
+- Chinese Postman: shortest paths + minimum-weight perfect matching on odd-degree vertices
+- Matching: bitmask DP for ≤22 odd vertices, greedy for larger sets
+- Hierholzer's algorithm for Euler circuit in O(|E|) time
+- Component bridging for disconnected graphs
 
-### Chinese Postman Problem
-1. Find odd-degree vertices S
-2. Shortest paths between all pairs in S
-3. Minimum-weight perfect matching on S
-4. Duplicate edges along matched paths
-5. Hierholzer's algorithm on augmented graph
+## What I Learned
 
-### Hierholzer's Algorithm
-```
-stack = [start], circuit = []
-while stack:
-    v = stack[-1]
-    if v has unused edges:
-        pick unused edge (v, u), mark used, stack.push(u)
-    else:
-        stack.pop(), circuit.append(v)
-return reversed(circuit)
-```
+### About depth perception in line art
+1. **Line density IS depth** — foreshortening naturally creates it; you don't have to fake it
+2. **Line weight variation is the strongest single cue** — a 10:1+ thick-to-thin ratio is very effective
+3. **Opacity variation stacks well with weight** — faint far-away lines recede convincingly
+4. **Hidden-line removal is unnecessary** for the swirl approach — the back-of-the-sphere lines showing through actually reinforces the sense of a solid, transparent form
+5. **The spiral "character" matters artistically** — Fibonacci feels organic, loxodrome feels mathematical, pole-to-pole spiral feels like a globe
 
-## Depth Cues for Single-Stroke Line Art
-- **Line weight**: w(z) = w_max - (w_max - w_min) * (z - z_near) / (z_far - z_near)
-- **Perspective foreshortening**: naturally occurs from projection
-- **Back-face culling**: skip edges of back-facing-only faces to reduce clutter
-- **Partial hidden line removal**: artistically, showing some hidden lines as thinner adds depth
+### About the parametric approach
+1. **Every closed surface can be spiraled** — you just need a parametric curve that covers the surface
+2. **Wrap count controls density** — more wraps = finer detail but also larger SVG files
+3. **Non-orientable surfaces (Möbius, Klein) work fine** — the path just follows the surface twist naturally
+4. **The trefoil knot is special** — it's already a single continuous 3D curve, no surface wrapping needed
+5. **Torus spiral is particularly satisfying** — the tube-winding creates a clear "donut" even at low resolution
 
-## Artistic Considerations
-- Retraced edges (from Eulerization) add visual weight, which can be artistically desirable for closer edges
-- The starting point of the circuit affects the visual flow
-- Space-filling curves mapped onto surfaces could replace wireframes for organic shapes
-- Cross-hatching density as a function of surface normal angle to light creates shading in single-stroke
+### About pen plotter compatibility
+1. SVG polylines are the natural output format for plotters
+2. Line weight variation needs multi-pass on single-pen plotters (2-3 passes for bold segments)
+3. Pressure-sensitive plotters could directly use the depth data
+4. vpype is the standard tool for post-processing plotter SVGs
 
-## Implementation Notes
-
-### Matching Algorithm Performance
-- Bitmask DP works for ≤22 odd-degree vertices (2^22 states fits in memory)
-- Dodecahedron (20 odd-degree vertices) uses DP: ~1M states, runs in milliseconds
-- Torus/Sphere/Möbius strip use greedy nearest-neighbor matching (too many odd vertices)
-- Greedy is suboptimal but produces acceptable results for artistic purposes
-
-### Results Summary
-| Shape | Vertices | Edges | Retraced | Total Segments |
-|-------|----------|-------|----------|----------------|
-| Cube | 8 | 12 | 4 | 16 |
-| Tetrahedron | 4 | 6 | 2 | 8 |
-| Octahedron | 6 | 12 | 0 | 12 |
-| Icosahedron | 12 | 30 | 6 | 36 |
-| Dodecahedron | 20 | 30 | 10 | 40 |
-| Torus | 160 | 320 | 0 | 320 |
-| Sphere | 86 | 180 | 0 | 180 |
-| Stella Octangula | 8 | 12 | 6 | 18 |
-| Hexagonal Prism | 12 | 18 | 6 | 24 |
-| Pentagonal Prism | 10 | 15 | 5 | 20 |
-| Möbius Strip | 96 | 168 | 24 | 192 |
-
-### Key Observations
-- Graphs with all even-degree vertices (octahedron, torus, sphere) need zero retracing — they are naturally Eulerian
-- The tetrahedron has 4 odd-degree vertices → needs 2 extra edges (one matching pair)
-- The stella octangula (two disjoint tetrahedra) required bridge edges to connect the components before Eulerization
-- Cube: 8 vertices all degree 3 → 4 extra edges. Dodecahedron: 20 vertices all degree 3 → 10 extra edges
-- Perspective projection creates convincing foreshortening especially visible on the torus and sphere
-- Depth-varying line weight (0.4px–3.5px range) with opacity (0.3–1.0) creates strong near/far perception
-- The retraced edges add visual weight, which serendipitously reinforces certain structural lines
+### Technical notes
+- All implemented in Python stdlib only — no numpy, no matplotlib
+- 2000-4000 points per curve is the sweet spot (enough detail, reasonable SVG size)
+- Polyline batching (groups of 5 points) makes smoother SVGs than individual line segments
+- SVG file sizes range from 75-170KB depending on point count

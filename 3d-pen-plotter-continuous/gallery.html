@@ -2,91 +2,81 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>3D Pen Plotter — Continuous Stroke Gallery</title>
+<title>Continuous Swirl — 3D Forms from One Stroke</title>
 <style>
   body {
     font-family: 'IBM Plex Mono', 'Courier New', monospace;
-    background: #faf9f6;
-    color: #1a1a2e;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
+    background: #faf9f6; color: #1a1a2e;
+    max-width: 1200px; margin: 0 auto; padding: 2rem;
   }
-  h1 { text-align: center; font-weight: 400; margin-bottom: 0.5rem; }
-  .subtitle { text-align: center; color: #666; margin-bottom: 2rem; font-size: 0.9rem; }
+  h1 { text-align: center; font-weight: 300; margin-bottom: 0.3rem; }
+  .subtitle { text-align: center; color: #888; font-size: 0.9rem; margin-bottom: 2rem; }
   .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: 1.5rem;
   }
   .card {
-    background: white;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 1rem;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    background: white; border: 1px solid #e8e8e8; border-radius: 10px;
+    padding: 1rem; text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.04);
   }
-  .card object { max-width: 100%; }
-  .caption {
-    margin-top: 0.5rem;
-    font-size: 0.85rem;
-    color: #555;
-  }
+  .card object { width: 100%; height: auto; }
+  .caption { margin-top: 0.5rem; font-size: 0.8rem; color: #777; }
 </style>
 </head>
 <body>
-  <h1>3D Pen Plotter — Continuous Stroke</h1>
-  <p class="subtitle">Each shape drawn in a single, continuous stroke without lifting the pen. Depth conveyed via line weight and opacity.</p>
+  <h1>One Stroke, Three Dimensions</h1>
+  <p class="subtitle">Each form drawn with a single continuous swirling line. Depth from line weight and opacity alone.</p>
   <div class="gallery">
         <div class="card">
-            <object data="cube.svg" type="image/svg+xml" width="380" height="380"></object>
-            <div class="caption">Cube — 8 vertices, 12 edges</div>
+            <object data="sphere_spiral.svg" type="image/svg+xml"></object>
+            <div class="caption">Sphere — Spiral — 2,500 points, 1 stroke</div>
         </div>
         <div class="card">
-            <object data="tetrahedron.svg" type="image/svg+xml" width="380" height="380"></object>
-            <div class="caption">Tetrahedron — 4 vertices, 6 edges</div>
+            <object data="sphere_loxodrome.svg" type="image/svg+xml"></object>
+            <div class="caption">Sphere — Loxodrome — 2,500 points, 1 stroke</div>
         </div>
         <div class="card">
-            <object data="octahedron.svg" type="image/svg+xml" width="380" height="380"></object>
-            <div class="caption">Octahedron — 6 vertices, 12 edges</div>
+            <object data="sphere_fibonacci.svg" type="image/svg+xml"></object>
+            <div class="caption">Sphere — Fibonacci — 2,000 points, 1 stroke</div>
         </div>
         <div class="card">
-            <object data="icosahedron.svg" type="image/svg+xml" width="380" height="380"></object>
-            <div class="caption">Icosahedron — 12 vertices, 30 edges</div>
+            <object data="torus.svg" type="image/svg+xml"></object>
+            <div class="caption">Torus — 4,000 points, 1 stroke</div>
         </div>
         <div class="card">
-            <object data="dodecahedron.svg" type="image/svg+xml" width="380" height="380"></object>
-            <div class="caption">Dodecahedron — 20 vertices, 30 edges</div>
+            <object data="cylinder.svg" type="image/svg+xml"></object>
+            <div class="caption">Cylinder — 1,800 points, 1 stroke</div>
         </div>
         <div class="card">
-            <object data="torus.svg" type="image/svg+xml" width="380" height="380"></object>
-            <div class="caption">Torus — 160 vertices, 320 edges</div>
+            <object data="cone.svg" type="image/svg+xml"></object>
+            <div class="caption">Cone — 1,800 points, 1 stroke</div>
         </div>
         <div class="card">
-            <object data="sphere.svg" type="image/svg+xml" width="380" height="380"></object>
-            <div class="caption">Sphere — 86 vertices, 180 edges</div>
+            <object data="egg.svg" type="image/svg+xml"></object>
+            <div class="caption">Egg — 2,500 points, 1 stroke</div>
         </div>
         <div class="card">
-            <object data="stella_octangula.svg" type="image/svg+xml" width="380" height="380"></object>
-            <div class="caption">Stella Octangula — 8 vertices, 12 edges</div>
+            <object data="vase.svg" type="image/svg+xml"></object>
+            <div class="caption">Vase — 2,500 points, 1 stroke</div>
         </div>
         <div class="card">
-            <object data="6-prism.svg" type="image/svg+xml" width="380" height="380"></object>
-            <div class="caption">Hexagonal Prism — 12 vertices, 18 edges</div>
+            <object data="moebius_strip.svg" type="image/svg+xml"></object>
+            <div class="caption">Möbius Strip — 2,500 points, 1 stroke</div>
         </div>
         <div class="card">
-            <object data="5-prism.svg" type="image/svg+xml" width="380" height="380"></object>
-            <div class="caption">Pentagonal Prism — 10 vertices, 15 edges</div>
+            <object data="trefoil_knot.svg" type="image/svg+xml"></object>
+            <div class="caption">Trefoil Knot — 2,500 points, 1 stroke</div>
         </div>
         <div class="card">
-            <object data="moebius_strip.svg" type="image/svg+xml" width="380" height="380"></object>
-            <div class="caption">Möbius Strip — 96 vertices, 168 edges</div>
+            <object data="spring_coil.svg" type="image/svg+xml"></object>
+            <div class="caption">Spring Coil — 3,000 points, 1 stroke</div>
+        </div>
+        <div class="card">
+            <object data="klein_bottle.svg" type="image/svg+xml"></object>
+            <div class="caption">Klein Bottle — 3,500 points, 1 stroke</div>
         </div>
   </div>
-  <footer style="text-align:center; margin-top:2rem; color:#999; font-size:0.8rem;">
-    Red dot marks the starting point of each continuous stroke.
-  </footer>
 </body>
 </html>
