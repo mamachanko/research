@@ -6,6 +6,16 @@ Each directory here is a separate research project carried out by an LLM tool - 
 
 Times shown are in UTC.
 
+### [3D Pen Plotter — Continuous Stroke](https://github.com/mamachanko/research/tree/main/3d-pen-plotter-continuous#readme) (2026-03-31 05:45)
+
+An exploration of drawing three-dimensional wireframe objects in a single continuous pen stroke without lifting the pen, using the Chinese Postman Problem to Eulerize wireframe graphs and Hierholzer's algorithm for Euler circuits. Eleven shapes rendered as SVGs with depth-varying line weight and opacity for 3D perception.
+
+Key findings:
+- Depth perception from line weight variation alone (9:1 thick-to-thin ratio plus opacity) is surprisingly effective without hidden-line removal
+- The Chinese Postman Problem (minimum-weight perfect matching on odd-degree vertices) is the right abstraction for minimizing retraced edges
+- Regular grid wireframes (torus, sphere) are naturally Eulerian — zero retracing needed — because all vertices have even degree
+- Retraced edges add visual weight at structurally important vertices, an unintentional but artistically pleasing side effect
+
 ### [Isoline 3D Visualization](https://github.com/mamachanko/research/tree/main/isoline-3d-visualization#readme) (2026-03-30 04:10)
 
 An exploration of eight distinct approaches to visualizing 3D objects using only isolines: horizontal slicing, Joy Division ridgelines, rotating parametric curves, depth-layered contours, cross-hatched multi-axis contours, radial coordinate isolines, parametric surface grids, and animated morphing contours. Each technique is demonstrated on multiple mathematical surfaces with Python/matplotlib.
