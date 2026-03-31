@@ -1,116 +1,103 @@
 # 3D Pen Plotter — Continuous Stroke
 
-Drawing three-dimensional objects in a single, continuous stroke without lifting the pen, while maintaining the perception of depth through line weight and opacity variation.
+Drawing three-dimensional forms with a single, continuous swirling stroke — not as geometrically precise wireframes, but as flowing lines that _suggest_ the shape. The line wraps around the form; perspective foreshortening bunches it at the edges and spreads it in the middle. Your brain sees a sphere, a torus, a vase — even though it's just one swirly line.
 
-## The Problem
+## The Idea
 
-A pen plotter draws by moving a pen across paper. The simplest approach is to draw each edge of a 3D wireframe as a separate line segment, lifting the pen between edges. But what if we want to draw the entire object in **one continuous stroke** — never lifting the pen?
+Imagine wrapping a single thread around a ball. As the thread spirals from pole to pole, it naturally bunches up near the edges (where the surface curves away from you) and spreads out in the middle (where the surface faces you). This density variation — a consequence of perspective projection — is what makes your brain perceive a three-dimensional sphere from a flat 2D drawing.
 
-This is a graph theory problem. A wireframe model is a graph where vertices are points in 3D space and edges are the lines connecting them. Drawing every edge exactly once without lifting the pen requires an **Euler path** (or **Euler circuit** if we return to the start). Such a path exists only when every vertex has even degree (for a circuit) or exactly two vertices have odd degree (for a path).
+The same principle works for any 3D form: tori, cones, vases, knots, Klein bottles. Define a continuous parametric curve on the surface, project it with perspective, and the depth emerges from the line's own behavior.
 
-Most 3D wireframes don't satisfy this condition. A cube, for example, has 8 vertices each of degree 3 — all odd. The solution: strategically duplicate some edges to make all degrees even, then find the Euler circuit through the augmented graph. The pen retraces those duplicated edges, but the result is a single continuous stroke that covers every edge.
+## Depth Cues
 
-## Approach
+No hidden-line removal. No shading. Just one line, with two simple depth cues:
 
-### Pipeline
+- **Line weight**: thicker when close (2.8px), thinner when far (0.2px) — a 14:1 ratio
+- **Opacity**: stronger when near (0.95), fainter when far (0.15)
+
+These cues stack with the natural foreshortening from perspective projection to create a convincing sense of volume.
+
+## Shapes
+
+Twelve forms, each drawn as a single continuous stroke:
+
+| Shape | Technique | Points |
+|-------|-----------|--------|
+| **Sphere — Spiral** | Pole-to-pole spiral, longitude wraps many times | 2,500 |
+| **Sphere — Loxodrome** | Rhumb line crossing all meridians at constant angle | 2,500 |
+| **Sphere — Fibonacci** | Golden-angle spiral, organic even distribution | 2,000 |
+| **Torus** | Spiral winding around the tube while circling the ring | 4,000 |
+| **Cylinder** | Helix spiraling upward | 1,800 |
+| **Cone** | Helix with shrinking radius toward the tip | 1,800 |
+| **Egg** | Spiral on an asymmetric ellipsoid (wider bottom) | 2,500 |
+| **Vase** | Spiral on a surface of revolution with a curvy profile | 2,500 |
+| **Mobius Strip** | Path oscillating across the strip width while circling | 2,500 |
+| **Trefoil Knot** | The knot itself is already one continuous 3D curve | 2,500 |
+| **Spring Coil** | Spiral around a helical tube — a stretched torus | 3,000 |
+| **Klein Bottle** | Spiral on a figure-8 Klein bottle immersion | 3,500 |
+
+### Three ways to swirl a sphere
+
+The sphere is drawn three different ways to show how the _character_ of the spiral changes the feel:
+
+- **Pole-to-pole spiral**: uniform wrapping, tight bunching at the poles, reads as a smooth globe
+- **Loxodrome**: crosses every meridian at the same angle — more even spacing, slightly nautical feel
+- **Fibonacci spiral**: golden-angle spacing creates an organic, almost biological quality — like a seed head or a dandelion
+
+All three clearly read as "sphere" from the density pattern alone.
+
+## How It Works
+
+### 1. Parametric Surface Curves
+
+Each shape is defined as a parametric curve `(x(t), y(t), z(t))` that traces a path across the surface of a 3D form. For a sphere spiral:
+
+```python
+lat = π * t - π/2          # south pole to north pole
+lon = 2π * n_wraps * t     # wind around many times
+
+x = r * cos(lat) * cos(lon)
+y = r * cos(lat) * sin(lon)
+z = r * sin(lat)
+```
+
+The key insight: the curve lives _on the surface_ of the object, so when projected, its density automatically reflects the surface's curvature.
+
+### 2. Perspective Projection
+
+A virtual camera projects each 3D point to 2D screen coordinates. The Z-depth (distance from camera) is retained for each point to drive the line weight and opacity.
+
+### 3. Depth-Modulated Rendering
+
+Each segment of the curve is drawn with stroke width and opacity proportional to its depth:
 
 ```
-3D Geometry → Rotation → Perspective Projection → Component Bridging → Eulerization → Euler Circuit → SVG with Depth Cues
+weight(z) = w_max - (z - z_near)/(z_far - z_near) * (w_max - w_min)
+opacity(z) = o_max - (z - z_near)/(z_far - z_near) * (o_max - o_min)
 ```
 
-### Step 1: Define 3D Geometry
-
-Eleven shapes are implemented as vertex + edge lists:
-
-- **Platonic solids**: tetrahedron, cube, octahedron, icosahedron, dodecahedron
-- **Other polyhedra**: stella octangula (two interlocking tetrahedra), pentagonal prism, hexagonal prism
-- **Curved surfaces**: torus, sphere wireframe, Mobius strip
-
-### Step 2: Perspective Projection
-
-A virtual camera with configurable position, target, field of view, and up-vector transforms 3D coordinates to 2D screen space using perspective division. The Z-depth of each vertex in camera space is retained for depth-based rendering.
-
-### Step 3: Connect Disconnected Components
-
-Some shapes (like the stella octangula = two separate tetrahedra) consist of multiple disconnected subgraphs. Bridge edges are added between the nearest vertices of each component to create a single connected graph.
-
-### Step 4: Eulerize the Graph (Chinese Postman Problem)
-
-1. **Find odd-degree vertices** — vertices where an odd number of edges meet
-2. **Compute shortest paths** between all pairs of odd-degree vertices (BFS)
-3. **Find minimum-weight perfect matching** — pair up odd vertices to minimize total duplicated edge count
-   - Bitmask DP for ≤22 odd vertices: O(n^2 * 2^n), exact optimal
-   - Greedy nearest-neighbor matching for larger sets: fast but approximate
-4. **Duplicate edges** along the matched shortest paths
-
-After Eulerization, every vertex has even degree, guaranteeing an Euler circuit exists.
-
-### Step 5: Find Euler Circuit (Hierholzer's Algorithm)
-
-Hierholzer's algorithm finds the circuit in O(|E|) time by walking unused edges and splicing sub-tours.
-
-### Step 6: Render with Depth Cues
-
-Each segment of the continuous path is rendered with:
-- **Line weight**: thicker for nearer edges (3.5px), thinner for far edges (0.4px)
-- **Opacity**: stronger for near (1.0), fainter for far (0.3)
-- **Perspective foreshortening**: naturally from the projection
-
-A red dot marks the starting point of each continuous stroke.
-
-## Results
-
-| Shape | Vertices | Original Edges | Retraced | Total Segments |
-|-------|----------|---------------|----------|----------------|
-| Tetrahedron | 4 | 6 | 2 | 8 |
-| Cube | 8 | 12 | 4 | 16 |
-| Octahedron | 6 | 12 | 0 | 12 |
-| Icosahedron | 12 | 30 | 6 | 36 |
-| Dodecahedron | 20 | 30 | 10 | 40 |
-| Torus | 160 | 320 | 0 | 320 |
-| Sphere | 86 | 180 | 0 | 180 |
-| Stella Octangula | 8 | 12 | 6 | 18 |
-| Hexagonal Prism | 12 | 18 | 6 | 24 |
-| Pentagonal Prism | 10 | 15 | 5 | 20 |
-| Mobius Strip | 96 | 168 | 24 | 192 |
-
-**Naturally Eulerian shapes** (zero retracing): the octahedron, torus, and sphere wireframe all have exclusively even-degree vertices — every vertex sits at the junction of an even number of edges — so an Euler circuit exists on the original graph with no edge duplication needed.
-
-**Overhead from Eulerization**: for the Platonic solids where every vertex has degree 3 (tetrahedron, cube, icosahedron, dodecahedron), the number of retraced edges equals half the number of odd-degree vertices. This is the theoretical minimum.
-
-## Key Findings
-
-- **Depth perception from line weight alone is surprisingly effective.** A 9:1 ratio between the thickest and thinnest strokes (3.5px vs 0.4px), combined with opacity variation, creates a convincing sense of near vs. far even without hidden-line removal.
-
-- **The Chinese Postman Problem is the right abstraction.** It directly minimizes the number of edges the pen must retrace. For wireframes of common 3D shapes, the number of odd-degree vertices is small enough (≤20) for exact optimal matching via bitmask DP.
-
-- **Not all wireframes need Eulerization.** Regular grids (torus, sphere latitude/longitude mesh) naturally have all even-degree vertices because each interior vertex connects to exactly 4 neighbors. These shapes can be drawn in one stroke with zero wasted movement.
-
-- **Disconnected components require bridge edges.** Compound shapes like the stella octangula (two interlocking tetrahedra that share no edges) need explicit connections added before Eulerization. The bridge edges become visible "travel lines" in the drawing — an artistic choice that traces a path through space between the two shapes.
-
-- **Retraced edges aren't wasted — they add visual weight.** On a real pen plotter, retraced edges receive a double layer of ink, making them slightly bolder. This unintentional emphasis often falls on structurally important edges (connecting odd-degree vertices, which tend to be at corners or intersections).
+Near parts are bold and opaque. Far parts are wispy and faint. The transition is continuous.
 
 ## Files
 
-- `plotter.py` — Complete implementation: geometry generation, projection, Eulerization, Euler circuit, SVG rendering (~800 lines, Python 3.8+ stdlib only)
-- `gallery.html` — HTML gallery page embedding all SVGs
-- `*.svg` — Individual SVG outputs for each shape
-- `notes.md` — Working notes and observations from the investigation
+- **`swirl.py`** — Main implementation: 12 parametric surface curves, projection, depth-modulated SVG rendering (~400 lines, Python 3.8+ stdlib only)
+- **`plotter.py`** — Alternative wireframe approach using graph Eulerization (Chinese Postman Problem + Hierholzer's algorithm) — included for comparison
+- **`gallery.html`** — HTML gallery embedding all SVGs
+- **`*.svg`** — Individual SVG outputs
+- **`notes.md`** — Working notes
 
 ## Running
 
 ```bash
-cd 3d-pen-plotter-continuous
-python3 plotter.py
-# Generates 11 SVGs + gallery.html
+python3 swirl.py
+# Generates 12 SVGs + gallery.html
 ```
 
-No external dependencies required — uses only Python standard library.
+No external dependencies — Python standard library only.
 
 ## Pen Plotter Compatibility
 
-The SVG output is designed for pen plotter workflows:
-- All geometry is vector (line segments), no rasterization
-- Coordinates are in screen pixels but easily scaled
-- Compatible with tools like [vpype](https://github.com/abey79/vpype) for post-processing (optimizing, scaling, converting to HPGL/G-code)
-- Line weight variation can be approximated on single-pen plotters by multi-pass: trace near (bold) edges 2-3 times, far edges once
+The SVG output is vector-only (polylines), suitable for pen plotters. For real hardware:
+- Use [vpype](https://github.com/abey79/vpype) to optimize, scale, and convert to HPGL/G-code
+- Line weight variation can be approximated by multi-pass (trace near/bold segments 2-3x)
+- Or use a pressure-sensitive plotter that supports variable pen force
