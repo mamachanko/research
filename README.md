@@ -6,6 +6,17 @@ Each directory here is a separate research project carried out by an LLM tool - 
 
 Times shown are in UTC.
 
+### [Shinkawa Pen Plotter Style](https://github.com/mamachanko/research/tree/main/shinkawa-pen-plotter-style#readme) (2026-04-02 12:45)
+
+An investigation into translating Yoji Shinkawa's ink brush aesthetic (Metal Gear Solid, Death Stranding) to pen plotter output. Analyzed his visual style — bold sumi-e-influenced contours, variable line weight, dry brush texture, ink splatter — and developed algorithmic strategies to approximate each element using plotter hardware. Includes a proof-of-concept Python script that generates multi-layer plotter-ready SVGs.
+
+Key findings:
+- Multi-layer decomposition (contours, flow strokes, dry brush, hatching, splatter) with per-layer pen swaps is the most practical approach
+- Physical pen choice (actual Pentel brush pens in the plotter arm) matters more than algorithm sophistication
+- Perlin noise flow fields seeded in dark image regions naturally produce gestural, Shinkawa-like stroke quality
+- Plotter imperfections (ink flow variation, brush flex, paper texture) are features that add organic quality
+- High-contrast "less is more" compositions (drawing only the darkest 20-30%) best capture Shinkawa's economy of mark-making
+
 ### [3D Pen Plotter — Continuous Stroke](https://github.com/mamachanko/research/tree/main/3d-pen-plotter-continuous#readme) (2026-03-31 11:20)
 
 An exploration of drawing three-dimensional forms with a single continuous swirling stroke — not wireframes, but flowing parametric curves that wrap around 3D surfaces. When projected with perspective, the line's natural density variation (bunching at edges, spreading in the middle) makes the brain perceive spheres, tori, vases, and knots. Twelve shapes rendered as SVGs with depth-varying line weight and opacity.
