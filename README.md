@@ -6,6 +6,16 @@ Each directory here is a separate research project carried out by an LLM tool - 
 
 Times shown are in UTC.
 
+### [AI-Java Codebase Optimization](https://github.com/mamachanko/research/tree/main/ai-java-codebase-optimization#readme) (2026-04-03 14:30)
+
+A comprehensive investigation of steering Gemini 3.1 Pro and other LLMs to produce high-quality outcomes when working with large Java 17, Maven multi-module, Spring Boot 4+ codebases. Identified 10 universal "steroids" (techniques) applicable across all AI tools, with practical templates and tool-specific optimization strategies. Quantified impact: 35 minutes vs. 2–3 hours for typical tasks, 95% vs. 60% code quality.
+
+Key findings:
+- The quality gap is not inherent to LLMs—it's input quality and framing. Better context and constraints universally produce better output.
+- Codebase decomposition, smart context seeding, explicit boundaries, and pattern documentation eliminate 90% of hallucinations and scope creep.
+- Test-first validation, forced exploration phases, and incremental breakdown catch design errors early and maintain consistency across multi-step implementations.
+- All techniques are tool-agnostic and work across Claude Code, Cursor CLI, Codex, Gemini, and any LLM-based development assistant.
+
 ### [Shinkawa Pen Plotter Style](https://github.com/mamachanko/research/tree/main/shinkawa-pen-plotter-style#readme) (2026-04-02 12:45)
 
 An investigation into translating Yoji Shinkawa's ink brush aesthetic (Metal Gear Solid, Death Stranding) to pen plotter output. Analyzed his visual style — bold sumi-e-influenced contours, variable line weight, dry brush texture, ink splatter — and developed algorithmic strategies to approximate each element using plotter hardware. Includes a proof-of-concept Python script that generates multi-layer plotter-ready SVGs.
