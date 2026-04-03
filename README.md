@@ -6,6 +6,17 @@ Each directory here is a separate research project carried out by an LLM tool - 
 
 Times shown are in UTC.
 
+### [AI Agent Optimization for Large Java Codebases](https://github.com/mamachanko/research/tree/main/ai-java-codebase-optimization#readme) (2026-04-03 12:00)
+
+How to steer weaker AI models (e.g. Gemini 3.1 Pro) to produce top-quality outcomes on Java 17 / Maven multi-module / Spring Boot 4 codebases, using techniques applicable to any agent tooling (Cursor CLI, Claude Code, Codex, etc.). Covers context engineering, task decomposition, compile feedback loops, ArchUnit guardrails, and Spring Boot 4 specifics.
+
+Key findings:
+- A Project Bible file (AGENTS.md / .cursorrules / CLAUDE.md) injected at session start is the single highest-ROI lever — a weak model with precise context beats a strong model operating blind
+- Module-scoped sessions (one Maven module per agent conversation) dramatically reduce failure radius and context noise
+- Analysis-before-implementation prompting and contract-first interface definition eliminate the majority of hallucinated class names and incorrect signatures
+- Machine-enforced guardrails (ArchUnit + Checkstyle) catch `javax.*` / cross-module / `@Transactional` violations more reliably than model self-policing
+- Immediate compile-loop feedback (mvn compile errors fed back per edit) is the fastest path from broken to working code
+
 ### [Shinkawa Pen Plotter Style](https://github.com/mamachanko/research/tree/main/shinkawa-pen-plotter-style#readme) (2026-04-02 12:45)
 
 An investigation into translating Yoji Shinkawa's ink brush aesthetic (Metal Gear Solid, Death Stranding) to pen plotter output. Analyzed his visual style — bold sumi-e-influenced contours, variable line weight, dry brush texture, ink splatter — and developed algorithmic strategies to approximate each element using plotter hardware. Includes a proof-of-concept Python script that generates multi-layer plotter-ready SVGs.
