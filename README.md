@@ -6,6 +6,17 @@ Each directory here is a separate research project carried out by an LLM tool - 
 
 Times shown are in UTC.
 
+### [CF Self-Redeploy](https://github.com/mamachanko/research/tree/main/cf-self-redeploy#readme) (2026-04-05 15:30)
+
+An investigation into whether a Spring Boot application deployed to Cloud Foundry can programmatically redeploy itself (or a clone) with different properties, profiles, and service bindings using the CF V3 API. Includes proof-of-concept Java code using the cf-java-client library.
+
+Key findings:
+- Yes, a CF app can deploy clones of itself via the CF V3 API using the cf-java-client library
+- The most efficient approach is copying the app's compiled droplet (`POST /v3/droplets?source_guid=...`), which avoids re-uploading the JAR and re-staging entirely
+- The running app can discover its own identity (app GUID, space ID, CF API endpoint) from the `VCAP_APPLICATION` environment variable injected by CF
+- Different Spring profiles, env vars, service bindings, and routes can be set on each clone independently
+- Fork-bomb prevention (recursive self-cloning) must be explicitly guarded against
+
 ### [Shinkawa Pen Plotter Style](https://github.com/mamachanko/research/tree/main/shinkawa-pen-plotter-style#readme) (2026-04-02 12:45)
 
 An investigation into translating Yoji Shinkawa's ink brush aesthetic (Metal Gear Solid, Death Stranding) to pen plotter output. Analyzed his visual style — bold sumi-e-influenced contours, variable line weight, dry brush texture, ink splatter — and developed algorithmic strategies to approximate each element using plotter hardware. Includes a proof-of-concept Python script that generates multi-layer plotter-ready SVGs.
