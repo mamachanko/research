@@ -6,6 +6,33 @@ Each directory here is a separate research project carried out by an LLM tool - 
 
 Times shown are in UTC.
 
+### [Pi VPS-Only Local Access](https://github.com/mamachanko/research/tree/main/pi-vps-only-local-access#readme) (2026-04-05 15:20)
+
+Investigated the strict deployment constraint that Pi (the coding agent) cannot be installed locally and must run only on a VPS. Produced a VPS-only architecture and setup guide using SSH local port-forwarding for browser access from local machines.
+
+Key findings:
+- The local machine only needs a browser and SSH client; Pi runtime stays exclusively on VPS
+- Binding Pi and web services to `127.0.0.1` on VPS plus SSH `-L` forwarding is the safest default
+- Public HTTPS access should be optional and gated by an auth layer on the VPS reverse proxy
+
+### [Pi Coding Agent Web Client on VPS](https://github.com/mamachanko/research/tree/main/pi-coding-agent-web-client-vps#readme) (2026-04-05 15:09)
+
+Investigated a corrected scope: running Pi (the coding agent) on a VPS while using it from a local browser through SSH local port-forwarding. Produced a loopback-first deployment pattern with compose/systemd examples and optional TLS reverse-proxying.
+
+Key findings:
+- For single-user operation, SSH `-L` forwarding to VPS loopback is the cleanest and safest default
+- Keeping both web UI and agent API bound to `127.0.0.1` materially reduces exposure risk
+- A reverse proxy with TLS/auth should be treated as an optional collaboration layer, not the base requirement
+
+### [Pi Web Client via VPS Port-Forwarding](https://github.com/mamachanko/research/tree/main/pi-web-client-vps-port-forward#readme) (2026-04-05 15:05)
+
+Investigated how to run a browser-accessed web client on a VPS while securely reaching a Raspberry Pi on a private/home network via reverse tunneling. Produced a concrete deployment pattern using autossh reverse port-forwarding, VPS reverse proxying, and hardening guidance.
+
+Key findings:
+- A reverse SSH tunnel initiated by the Pi avoids opening inbound home router ports
+- Keeping the forwarded endpoint bound to `127.0.0.1` on the VPS reduces exposure and pairs cleanly with HTTPS reverse proxy routes
+- `autossh` with systemd provides a practical, resilient baseline for persistent connectivity
+
 ### [CF Self-Redeploy](https://github.com/mamachanko/research/tree/main/cf-self-redeploy#readme) (2026-04-05 15:30)
 
 An investigation into whether a Spring Boot application deployed to Cloud Foundry can programmatically redeploy itself (or a clone) with different properties, profiles, and service bindings using the CF V3 API. Includes proof-of-concept Java code using the cf-java-client library.

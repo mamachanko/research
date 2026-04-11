@@ -1,0 +1,7 @@
+pi.example.com {
+  encode zstd gzip
+
+  # Add auth middleware here if publicly exposed
+
+  reverse_proxy 127.0.0.1:9000
+}

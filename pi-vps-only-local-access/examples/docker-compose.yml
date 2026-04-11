@@ -1,0 +1,8 @@
+services:
+  pi-web:
+    image: ghcr.io/example/pi-web-client:latest
+    restart: unless-stopped
+    environment:
+      - PI_BASE_URL=http://127.0.0.1:7777
+    ports:
+      - "127.0.0.1:9000:9000"
