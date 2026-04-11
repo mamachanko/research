@@ -1,0 +1,14 @@
+pi.example.com {
+  encode zstd gzip
+
+  # Optional: plug in OIDC / auth portal here before proxies
+
+  handle_path /api/* {
+    uri strip_prefix /api
+    reverse_proxy 127.0.0.1:7777
+  }
+
+  handle {
+    reverse_proxy 127.0.0.1:9000
+  }
+}

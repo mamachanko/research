@@ -1,0 +1,17 @@
+services:
+  pi-agent:
+    image: ghcr.io/example/pi-agent-runner:latest
+    restart: unless-stopped
+    environment:
+      - PORT=7777
+      - HOST=127.0.0.1
+    ports:
+      - "127.0.0.1:7777:7777"
+
+  pi-web:
+    image: ghcr.io/example/pi-web-client:latest
+    restart: unless-stopped
+    environment:
+      - PI_AGENT_BASE_URL=http://127.0.0.1:7777
+    ports:
+      - "127.0.0.1:9000:9000"

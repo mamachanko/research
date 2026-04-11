@@ -1,0 +1,12 @@
+pi.example.com {
+  encode zstd gzip
+
+  handle_path / {
+    reverse_proxy 127.0.0.1:8080
+  }
+
+  handle_path /pi-api/* {
+    uri strip_prefix /pi-api
+    reverse_proxy 127.0.0.1:18080
+  }
+}
