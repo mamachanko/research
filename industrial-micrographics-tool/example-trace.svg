@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420" height="180" viewBox="0 0 420 180" role="img">
+<title>token stream</title>
+<style>
+    .bg { fill: #0f130d; }
+    .panel { fill: #171d13; stroke: #64705d; stroke-width: 1; }
+    .panel2 { fill: #202817; stroke: #a6e22e; stroke-width: 1; }
+    .grid { stroke: #64705d; stroke-width: .7; opacity: .28; }
+    .hair { stroke: #64705d; stroke-width: 1; fill: none; opacity: .7; }
+    .wire { stroke: #a6e22e; stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    .wire-muted { stroke: #64705d; stroke-width: 1.5; fill: none; stroke-linecap: round; }
+    .accent { stroke: #d8ff70; fill: none; }
+    .txt { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #f0f7e8; font-size: 12px; letter-spacing: .06em; }
+    .sub { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #a4b197; font-size: 9px; letter-spacing: .08em; }
+    .tiny { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; fill: #a4b197; font-size: 7px; letter-spacing: .1em; }
+    .ok { fill: #7dff9d; }
+    .danger { fill: #ff6b4a; }
+    .linefill { fill: #a6e22e; }
+    </style>
+<rect class="bg" x="0" y="0" width="420" height="180" rx="12"/>
+<line class="grid" x1="12" y1="8" x2="12" y2="172"/>
+<line class="grid" x1="28" y1="8" x2="28" y2="172"/>
+<line class="grid" x1="44" y1="8" x2="44" y2="172"/>
+<line class="grid" x1="60" y1="8" x2="60" y2="172"/>
+<line class="grid" x1="76" y1="8" x2="76" y2="172"/>
+<line class="grid" x1="92" y1="8" x2="92" y2="172"/>
+<line class="grid" x1="108" y1="8" x2="108" y2="172"/>
+<line class="grid" x1="124" y1="8" x2="124" y2="172"/>
+<line class="grid" x1="140" y1="8" x2="140" y2="172"/>
+<line class="grid" x1="156" y1="8" x2="156" y2="172"/>
+<line class="grid" x1="172" y1="8" x2="172" y2="172"/>
+<line class="grid" x1="188" y1="8" x2="188" y2="172"/>
+<line class="grid" x1="204" y1="8" x2="204" y2="172"/>
+<line class="grid" x1="220" y1="8" x2="220" y2="172"/>
+<line class="grid" x1="236" y1="8" x2="236" y2="172"/>
+<line class="grid" x1="252" y1="8" x2="252" y2="172"/>
+<line class="grid" x1="268" y1="8" x2="268" y2="172"/>
+<line class="grid" x1="284" y1="8" x2="284" y2="172"/>
+<line class="grid" x1="300" y1="8" x2="300" y2="172"/>
+<line class="grid" x1="316" y1="8" x2="316" y2="172"/>
+<line class="grid" x1="332" y1="8" x2="332" y2="172"/>
+<line class="grid" x1="348" y1="8" x2="348" y2="172"/>
+<line class="grid" x1="364" y1="8" x2="364" y2="172"/>
+<line class="grid" x1="380" y1="8" x2="380" y2="172"/>
+<line class="grid" x1="396" y1="8" x2="396" y2="172"/>
+<line class="grid" x1="412" y1="8" x2="412" y2="172"/>
+<line class="grid" x1="8" y1="12" x2="412" y2="12"/>
+<line class="grid" x1="8" y1="28" x2="412" y2="28"/>
+<line class="grid" x1="8" y1="44" x2="412" y2="44"/>
+<line class="grid" x1="8" y1="60" x2="412" y2="60"/>
+<line class="grid" x1="8" y1="76" x2="412" y2="76"/>
+<line class="grid" x1="8" y1="92" x2="412" y2="92"/>
+<line class="grid" x1="8" y1="108" x2="412" y2="108"/>
+<line class="grid" x1="8" y1="124" x2="412" y2="124"/>
+<line class="grid" x1="8" y1="140" x2="412" y2="140"/>
+<line class="grid" x1="8" y1="156" x2="412" y2="156"/>
+<line class="grid" x1="8" y1="172" x2="412" y2="172"/>
+<rect class="hair" x="6" y="6" width="408" height="168" rx="10"/>
+<text class="txt" x="16" y="24">TOKEN STREAM</text>
+<rect class="panel" x="22" y="46" width="376" height="106" rx="8"/>
+<polyline class="wire" points="32.0,105.3 43.5,110.1 55.0,118.5 66.5,120.8 77.9,119.6 89.4,109.4 100.9,101.0 112.4,82.5 123.9,77.5 135.4,78.9 146.8,87.1 158.3,97.8 169.8,110.8 181.3,114.8 192.8,122.3 204.3,119.1 215.7,110.2 227.2,93.0 238.7,95.9 250.2,82.4 261.7,76.1 273.2,72.0 284.6,96.1 296.1,94.3 307.6,107.3 319.1,117.8 330.6,119.4 342.1,119.9 353.5,105.8 365.0,90.5 376.5,79.9 388.0,80.4"/>
+<circle class="linefill" cx="32.0" cy="105.3" r="2.5"/>
+<circle class="linefill" cx="89.4" cy="109.4" r="2.5"/>
+<circle class="linefill" cx="146.8" cy="87.1" r="2.5"/>
+<circle class="linefill" cx="204.3" cy="119.1" r="2.5"/>
+<circle class="linefill" cx="261.7" cy="76.1" r="2.5"/>
+<circle class="linefill" cx="319.1" cy="117.8" r="2.5"/>
+<circle class="linefill" cx="376.5" cy="79.9" r="2.5"/>
+<text class="tiny" x="18" y="167">SIGNAL TRACE / TELEMETRY</text>
+</svg>
