@@ -6,6 +6,15 @@ Each directory here is a separate research project carried out by an LLM tool - 
 
 Times shown are in UTC.
 
+### [Industrial Micrographics Tool](https://github.com/mamachanko/research/tree/main/industrial-micrographics-tool#readme) (2026-07-05 15:16)
+
+Investigated a Python tool for generating industrial-style SVG micrographics on demand for agent-authored rich HTML responses. Built a dependency-free prototype CLI that creates pipeline, status, and telemetry trace assets suitable for inline HTML embedding.
+
+Key findings:
+- SVG is the best default target because it is text, inspectable, and directly embeddable in HTML
+- A useful industrial visual language can be generated with simple dependency-free SVG primitives
+- Semantic parameters such as steps, metrics, title, and palette are a better agent interface than raw drawing commands
+
 ### [Pi VPS-Only Local Access](https://github.com/mamachanko/research/tree/main/pi-vps-only-local-access#readme) (2026-04-05 15:20)
 
 Investigated the strict deployment constraint that Pi (the coding agent) cannot be installed locally and must run only on a VPS. Produced a VPS-only architecture and setup guide using SSH local port-forwarding for browser access from local machines.
